@@ -8,9 +8,12 @@
 
 <body>
 	<div id="cursor" class="circleShape"></div>
-	<canvas id="board" width="1000" height="1000" >
-		Sorry, your browser doesn't support the &lt;canvas&gt; element.
-	</canvas>
+	<div id="drawing">
+		<canvas id="board" class="left outline" width="1000" height="1000" >
+			Sorry, your browser doesn't support the &lt;canvas&gt; element.
+		</canvas>
+		<canvas id="tools" class="left outline" width="75" height="1000"></canvas>
+	</div>
 	<script src="res/js/jquery-1.10.2.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="res/js/script.js"></script>

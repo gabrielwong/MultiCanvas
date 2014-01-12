@@ -1,7 +1,23 @@
-#board{
+.outline{
 	border: 1px dashed;
 }
 
 .circleShape{
 	border-radius: 50%;
+}
+
+.left{
+	float:left;
+}
+
+.right{
+	float:right;
+}
+
+#cursor{
+	width: cursorWidth,
+	height: cursorWidth,
+	background: "black",
+	position: "relative",
+	pointer-events: 'none'
 }
