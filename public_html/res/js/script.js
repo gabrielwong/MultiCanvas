@@ -8,8 +8,7 @@ $(function(){
 		lineWidth = 3,
 		cursorWidth = 6,
 		penColor = rgbToHex(255, 0, 0),
-		url = "http://localhost:8080",
-		socket = io.connect(url),
+		socket = io.connect(window.location.host),
 		cursor = $('#cursor');
 
 	var drawLine = function(x1, y1, x2, y2, color){
