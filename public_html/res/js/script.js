@@ -4,8 +4,10 @@ $(function(){
 		drawing = false,
 		prev = {},
 		lineWidth = 3,
+		cursorWidth = 6,
 		url = "http://localhost:8080",
-		socket = io.connect(url);
+		socket = io.connect(url),
+		cursor = $('#cursor');
 
 	var drawLine = function(x1, y1, x2, y2){
 		ctx.lineWidth = lineWidth;
@@ -31,19 +33,27 @@ $(function(){
 		};
 	}
 
+	var moveCursor = function(pos){
+		cursor.css({
+			'top': pos.y + cursorWidth / 2.,
+			'left': pos.x - cursorWidth / 2.
+		})
+	}
+
 	canvas.on('mousedown', function(e){
 		drawing = true;
 		prev = getCoordinates(e);
 		//fillCircle(prev.x, prev.y, lineWidth / 2.0);
 	});
 	canvas.on('mousemove', function(e){
+		var next = getCoordinates(e);
+		moveCursor(next);
 		if (drawing){
-			var next = getCoordinates(e);
 			drawLine(prev.x, prev.y, next.x, next.y);
 			socket.emit('client drawing', {
 				'prev': prev,
 				'next': next
-			});
+			});lineWidth
 			prev = next;
 		}
 	});
@@ -54,5 +64,13 @@ $(function(){
 
 	socket.on('peer drawing', function(data){
 		drawLine(data.prev.x, data.prev.y, data.next.x, data.next.y);
+	});
+
+	cursor.css({
+		'width': cursorWidth,
+		'height': cursorWidth,
+		'background': "black",
+		'position': "relative",
+		'pointer-events': 'none'
 	});
 });
