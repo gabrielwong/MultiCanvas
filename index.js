@@ -1,15 +1,15 @@
-var app = require('http').createServer(handler),
-	io = require('socket.io').listen(app),
-	static = require('node-static'),
-	fileServer = new static.Server('./');
+var express = require('express'),
+	app = express(),
+	http = require('http'),
+	server = http.createServer(app),
+	io = require('socket.io').listen(server);
 
-app.listen(8080);
+app.use(express.static(__dirname + '/public_html')); // Serve static contents
+server.listen(8080);
 
-function handler(request, response){
-	console.log("Request received");
-	request.addListener('end', function(){
-		console.log("Serving static file");
-		fileServer.serve(request, response);
+// Bind Socket.io
+io.sockets.on('connection', function(socket){
+	socket.on('client drawing', function(data){
+		socket.broadcast.emit('peer drawing', data);
 	});
-	request.resume();
-}
+});
